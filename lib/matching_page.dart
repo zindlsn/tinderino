@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tinder_clone/appbar_title.dart';
 
 class MatchingPage extends StatefulWidget {
   const MatchingPage({super.key});
@@ -10,25 +11,50 @@ class MatchingPage extends StatefulWidget {
 class MatchingPageState extends State<MatchingPage> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 4.0, left: 4.0, right: 4.0),
-      child: Center(
-        child: Stack(
-          alignment: Alignment.bottomLeft,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                  "https://images.pexels.com/photos/3225229/pexels-photo-3225229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"),
-            ),
-            const Column(
-              mainAxisSize: MainAxisSize.min,
+    return Scaffold(
+      appBar: AppBar(
+        title: const AppBarTitle(),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
               children: [
-                ShortProfileInfos(),
-                PictureActions(),
+                Icon(
+                  Icons.notifications_sharp,
+                  size: 32,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Icon(
+                    Icons.display_settings_outlined,
+                    size: 32,
+                  ),
+                ),
               ],
-            )
-          ],
+            ),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 4.0, left: 4.0, right: 4.0),
+        child: Center(
+          child: Stack(
+            alignment: Alignment.bottomLeft,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.network(
+                    "https://images.pexels.com/photos/3225229/pexels-photo-3225229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"),
+              ),
+              const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ShortProfileInfos(),
+                  PictureActions(),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

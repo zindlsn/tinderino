@@ -25,21 +25,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tinderino',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
@@ -50,16 +35,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -67,46 +42,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _currentIndex = 0;
+  int _currentIndex = 4;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            const Icon(
-              Icons.local_fire_department,
-              color: Colors.red,
-            ),
-            Text(
-              widget.title,
-              style: const TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.notifications_sharp,
-                  size: 32,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Icon(
-                    Icons.display_settings_outlined,
-                    size: 32,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      body: const MatchingPage(),
+      body: selectCurrentPage(_currentIndex),
       backgroundColor: Colors.grey[300],
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
@@ -173,16 +114,16 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _currentIndex = index;
     });
+  }
 
-    switch (index) {
+  selectCurrentPage(int currentIndex) {
+    switch (currentIndex) {
       case 0:
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => MatchingPage()));
-        break;
-      case 1:
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ProfilePage()));
-        break;
+        return const MatchingPage();
+      case 4:
+        return const ProfilePage();
+      default:
+        return const MatchingPage();
     }
   }
 }

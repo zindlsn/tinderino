@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MatchingPage extends StatefulWidget {
-  const MatchingPage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  MatchingPageState createState() => MatchingPageState();
+  ProfilePageState createState() => ProfilePageState();
 }
 
-class MatchingPageState extends State<MatchingPage> {
+class ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Padding(

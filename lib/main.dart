@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:tinder_clone/matching_page.dart';
+import 'package:tinder_clone/profile_page.dart';
 
 void main() {
   runApp(
@@ -66,6 +67,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,13 +106,15 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: MatchingPage(),
+      body: const MatchingPage(),
       backgroundColor: Colors.grey[300],
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         elevation: 1.0,
         iconSize: 32,
         enableFeedback: true,
+        currentIndex: _currentIndex,
+        onTap: (value) => _onItemTapped(value),
         items: const [
           BottomNavigationBarItem(
             tooltip: 'View Tinder Profiles',
@@ -162,5 +167,22 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => MatchingPage()));
+        break;
+      case 1:
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => ProfilePage()));
+        break;
+    }
   }
 }

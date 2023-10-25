@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:tinder_clone/appbar_title.dart';
 
@@ -29,16 +31,16 @@ class ProfilePageState extends State<ProfilePage> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height / 3,
-            color: Colors.blue,
-            child: Center(
+            color: Colors.transparent,
+            child: const Center(
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: [
-                  const FilledProfileProgress(),
-                  const Positioned(
+                  Profile(),
+                  Positioned(
+                    top: 0.0,
+                    right: 0,
                     child: EditProfileButton(),
-                    top: 60.0,
-                    right: 100,
                   ),
                 ],
               ),
@@ -344,6 +346,62 @@ class PictureActions extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class BorderPainter extends CustomPainter {
+  final double currentState;
+
+  BorderPainter({required this.currentState});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    double strokeWidth = 8;
+    Rect rect = const Offset(0, 0) & Size(size.width, size.height);
+
+    var paint = Paint()
+      ..color = Colors.red
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke;
+
+    double startAngle = pi / 2;
+    double sweepAmount = currentState * pi * 2 / 100 * 75;
+
+    canvas.drawArc(rect, startAngle, sweepAmount, false, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class Profile extends StatelessWidget {
+  const Profile({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 200,
+      height: 200,
+      color: Colors.transparent,
+      child: Center(
+        child: TweenAnimationBuilder(
+          curve: Curves.bounceOut,
+          tween: Tween(begin: 0.0, end: 1.0),
+          duration: const Duration(seconds: 2),
+          builder: (context, value, child) {
+            return CustomPaint(
+              painter: BorderPainter(currentState: value),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(child: ProfilePart()),
+              ),
+            );
+          },
         ),
       ),
     );

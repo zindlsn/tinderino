@@ -1,5 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:tinder_clone/login_page.dart';
 import 'package:tinder_clone/matching_page.dart';
 import 'package:tinder_clone/profile_page.dart';
 
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Tinderino'),
+      home: const LoginPage(),
     );
   }
 }
@@ -42,7 +43,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _currentIndex = 4;
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {

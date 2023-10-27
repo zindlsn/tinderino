@@ -29,83 +29,81 @@ class ProfilePageState extends State<ProfilePage> {
       ),
       body: Column(
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height / 3,
-            color: Colors.transparent,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: Stack(
-                    alignment: const Alignment(0, 2),
-                    children: [
-                      Center(
-                        child: Stack(
-                          alignment: Alignment.topCenter,
-                          children: [
-                            Container(
-                                height: 180,
-                                width: 180,
-                                color: Colors.transparent,
-                                child: const Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 8.0,
-                                      bottom: 8.0,
-                                      left: 8.0,
-                                      right: 8.0),
-                                  child: Profile(),
-                                )),
-                            const Positioned(
-                              top: 0.0,
-                              right: 0,
-                              child: EditProfileButton(),
-                            ),
-                            Positioned(
-                              bottom: 0.0,
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(32)),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 8.0,
-                                      bottom: 8.0,
-                                      left: 32,
-                                      right: 32.0),
-                                  child: Text(
-                                    '60% COMPLETED',
-                                    style: TextStyle(color: Colors.white),
+          Flexible(
+            flex: 1,
+            child: Container(
+              color: Colors.grey[300],
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 32.0),
+                    child: Stack(
+                      alignment: const Alignment(0, 2),
+                      children: [
+                        Center(
+                          child: Stack(
+                            alignment: Alignment.topCenter,
+                            children: [
+                              const SizedBox(
+                                  height: 180,
+                                  width: 180,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 8.0,
+                                        bottom: 8.0,
+                                        left: 8.0,
+                                        right: 8.0),
+                                    child: Profile(),
+                                  )),
+                              const Positioned(
+                                top: 0.0,
+                                right: 0,
+                                child: EditProfileButton(),
+                              ),
+                              Positioned(
+                                bottom: 0.0,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(32)),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 8.0,
+                                        bottom: 8.0,
+                                        left: 32,
+                                        right: 32.0),
+                                    child: Text(
+                                      '60% COMPLETE',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    'Stefan, 32',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                )
-              ],
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'Stefan, 32',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height / 3,
-                color: Colors.grey[200],
-              ),
-            ],
+          Flexible(
+            flex: 1,
+            child: Container(
+              color: Colors.white24,
+            ),
           ),
         ],
       ),

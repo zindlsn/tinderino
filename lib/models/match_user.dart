@@ -9,14 +9,17 @@ class MatchUser {
   MatchUser(this.otherUser);
 
   void addMessage(Message message) {
-    Message? lastMessage = messages.last;
-    if (lastMessage.owner == me.id) {
-      message.isFollowUpMessage = true;
+    Message? lastMessage = messages.isNotEmpty ? messages.last : null;
+    if (lastMessage != null) {
+      if (lastMessage.owner == message.owner) {
+        message.isFollowUpMessage = true;
+      }
+      if (lastMessage.created.day < message.created.day) {
+        message.isNewDate = true;
+      } else {
+        message.isNewDate = false;
+      }
     }
-    if (lastMessage.created.day < message.created.day) {
-      message.isNewDate = true;
-    } else {
-      message.isNewDate = false;
-    }
+    messages.add(message);
   }
 }

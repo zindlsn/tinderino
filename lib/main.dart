@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.grey,
             ),
             activeIcon: Icon(
-              Icons.local_fire_department,
+              Icons.travel_explore,
               color: Colors.red,
             ),
           ),
@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.grey,
             ),
             activeIcon: Icon(
-              Icons.local_fire_department,
+              Icons.diamond,
               color: Colors.red,
             ),
           ),
@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.grey,
             ),
             activeIcon: Icon(
-              Icons.local_fire_department,
+              Icons.forum,
               color: Colors.red,
             ),
           ),
@@ -122,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.grey,
             ),
             activeIcon: Icon(
-              Icons.local_fire_department,
+              Icons.person_2,
               color: Colors.red,
             ),
           ),

@@ -5,7 +5,7 @@ class User {
   late String mainProfilepicture;
   late String name;
 
-  _User() {
+  User() {
     id = const Uuid().v4();
   }
 

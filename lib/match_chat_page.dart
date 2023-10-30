@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:tinder_clone/main.dart';
 import 'package:tinder_clone/models/match_user.dart';
 import 'package:tinder_clone/models/message.dart';
 
+// ignore: must_be_immutable
 class MatchChatPage extends StatefulWidget {
   MatchUser matchUser;
   MatchChatPage(this.matchUser, {super.key});
@@ -13,15 +15,45 @@ class MatchChatPage extends StatefulWidget {
 
 class _MatchChatPageState extends State<MatchChatPage> {
   final _messageController = TextEditingController();
+  final _myController = ScrollController();
   late MatchUser matchUser;
   @override
   void initState() {
     matchUser = widget.matchUser;
+
+    matchUser.addMessage(Message(matchUser.otherUser.id, 'from the hot girl')
+      ..sender = MessageSender.other);
+    matchUser.addMessage(Message(matchUser.otherUser.id, 'from the hot girl')
+      ..sender = MessageSender.other);
+    matchUser.addMessage(Message(matchUser.otherUser.id, 'from the hot girl')
+      ..sender = MessageSender.other);
+    matchUser.addMessage(Message(matchUser.otherUser.id, 'from the hot girl')
+      ..sender = MessageSender.other);
+    matchUser.addMessage(Message(matchUser.otherUser.id, 'from the hot girl')
+      ..sender = MessageSender.other);
+    matchUser.addMessage(
+        Message(me.id, 'from the hot girl')..sender = MessageSender.me);
+    matchUser.addMessage(Message(matchUser.otherUser.id, 'from the hot girl')
+      ..sender = MessageSender.other);
+    matchUser.addMessage(
+        Message(me.id, 'from the hot girl')..sender = MessageSender.me);
+    matchUser.addMessage(
+        Message(me.id, 'from the hot girl')..sender = MessageSender.me);
+    matchUser.addMessage(Message(matchUser.otherUser.id, 'from the hot girl')
+      ..sender = MessageSender.other);
+    matchUser.addMessage(Message(matchUser.otherUser.id, 'from the hot girl')
+      ..sender = MessageSender.other);
+    matchUser.addMessage(
+        Message(me.id, 'from the hot girl')..sender = MessageSender.me);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _myController.jumpTo(_myController.position.maxScrollExtent);
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Row(
@@ -49,25 +81,27 @@ class _MatchChatPageState extends State<MatchChatPage> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              const Text('----- 13.02.2023 -----'),
-              Align(
-                  alignment: Alignment.centerRight, child: messageBubbleOwn()),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                child: Align(
-                    alignment: Alignment.centerRight,
-                    child: messageBubbleOwnFollowUp(context)),
-              ),
-              Align(
-                  alignment: Alignment.centerLeft, child: messageBubbleMatch()),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: messageBubbleMatchFollowUp()),
-              const Spacer(),
+              matchUser.messages.isNotEmpty
+                  ? Expanded(
+                      child: ListView.builder(
+                        controller: _myController,
+                        shrinkWrap: false,
+                        itemCount: matchUser.messages.length,
+                        itemBuilder: ((context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: buildMessage(matchUser.messages[index]),
+                          );
+                        }),
+                      ),
+                    )
+                  : Expanded(
+                      child: Container(),
+                    ),
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Row(
-                  mainAxisSize: MainAxisSize.max,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     const Padding(
                       padding: EdgeInsets.only(right: 8.0),
@@ -76,10 +110,10 @@ class _MatchChatPageState extends State<MatchChatPage> {
                         child: Icon(Icons.gif),
                       ),
                     ),
-                    Expanded(child: messageTextbox())
+                    messageTextbox()
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -87,7 +121,7 @@ class _MatchChatPageState extends State<MatchChatPage> {
     );
   }
 
-  Widget messageBubbleOwn() {
+  Widget messageBubbleOwn(Message message) {
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -98,11 +132,11 @@ class _MatchChatPageState extends State<MatchChatPage> {
             bottomLeft: Radius.circular(20.0),
             bottomRight: Radius.circular(4.0)),
       ),
-      child: const Text('Ninna?'),
+      child: Text(message.message),
     );
   }
 
-  Widget messageBubbleOwnFollowUp(BuildContext context) {
+  Widget messageBubbleOwnFollowUp(Message message) {
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -113,12 +147,11 @@ class _MatchChatPageState extends State<MatchChatPage> {
             bottomLeft: Radius.circular(20.0),
             bottomRight: Radius.circular(4.0)),
       ),
-      child: const Text(
-          'Nina, that is a long text to go until you reach the endpint?'),
+      child: Text(message.message),
     );
   }
 
-  Widget messageBubbleMatch() {
+  Widget messageBubbleMatch(Message messag) {
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -130,11 +163,11 @@ class _MatchChatPageState extends State<MatchChatPage> {
           bottomLeft: Radius.circular(4.0),
         ),
       ),
-      child: const Text('Ninna?'),
+      child: Text(messag.message),
     );
   }
 
-  Widget messageBubbleMatchFollowUp() {
+  Widget messageBubbleMatchFollowUp(Message message) {
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -146,37 +179,39 @@ class _MatchChatPageState extends State<MatchChatPage> {
           bottomLeft: Radius.circular(4.0),
         ),
       ),
-      child: const Text('Ninna?'),
+      child: Text(message.message),
     );
   }
 
   Widget messageTextbox() {
-    return TextFormField(
-      controller: _messageController,
-      decoration: InputDecoration(
-        suffixIcon: GestureDetector(
-          child: const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('SEND', textAlign: TextAlign.center),
-              ],
+    return Expanded(
+      child: TextFormField(
+        controller: _messageController,
+        decoration: InputDecoration(
+          suffixIcon: GestureDetector(
+            child: const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('SEND', textAlign: TextAlign.center),
+                ],
+              ),
             ),
+            onTap: () => {_sendMessage(_messageController.text)},
           ),
-          onTap: () => {_sendMessage(_messageController.text)},
-        ),
-        hintText: 'Type a message...',
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.grey),
-          borderRadius: BorderRadius.circular(25),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Colors.grey,
-            width: 2,
+          hintText: 'Type a message...',
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey),
+            borderRadius: BorderRadius.circular(25),
           ),
-          borderRadius: BorderRadius.circular(25),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.grey,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(25),
+          ),
         ),
       ),
     );
@@ -184,9 +219,38 @@ class _MatchChatPageState extends State<MatchChatPage> {
 
   _sendMessage(String text) {
     setState(() {
-      var newMessage = Message(me.id, text);
-      matchUser.messages.add(newMessage);
+      var newMessage = Message(me.id, text)..sender = MessageSender.me;
+      matchUser.addMessage(newMessage);
       _messageController.text = "";
     });
+  }
+
+  Widget buildMessage(Message message) {
+    if (message.owner == me.id) {
+      if (message.isFollowUpMessage) {
+        return Padding(
+          padding: const EdgeInsets.only(left: 42.0),
+          child: messageBubbleOwnFollowUp(message),
+        );
+      } else {
+        return Padding(
+          padding: const EdgeInsets.only(left: 42.0),
+          child: messageBubbleOwn(message),
+        );
+      }
+    } else {
+      if (message.isFollowUpMessage) {
+        return Padding(
+          padding: const EdgeInsets.only(right: 42.0),
+          child: messageBubbleMatchFollowUp(message),
+        );
+      } else {
+        return Padding(
+          padding: const EdgeInsets.only(right: 42.0),
+          child: messageBubbleMatch(message),
+        );
+      }
+    }
+    return Container();
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tinder_clone/appbar_title.dart';
 import 'package:tinder_clone/match_chat_page.dart';
 import 'package:tinder_clone/models/match_user.dart';
-import 'package:tinder_clone/models/message.dart';
 import 'package:tinder_clone/models/user.dart';
 
 class MatchesPage extends StatefulWidget {

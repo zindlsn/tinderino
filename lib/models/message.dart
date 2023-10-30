@@ -1,5 +1,7 @@
 enum MessageStatus { created, sending, sent, read, deleted }
 
+enum MessageSender { me, other }
+
 class Message {
   String owner;
   String message;
@@ -8,6 +10,7 @@ class Message {
 
   bool isFollowUpMessage = false;
   bool isNewDate = false;
+  MessageSender sender = MessageSender.me;
 
   Message(this.owner, this.message) {
     created = DateTime.now();

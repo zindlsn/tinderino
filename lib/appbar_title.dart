@@ -13,7 +13,7 @@ class AppBarTitle extends StatelessWidget {
         ),
         Text(
           'Tinderino',
-          style: const TextStyle(color: Colors.red),
+          style: TextStyle(color: Colors.red),
         ),
       ],
     );

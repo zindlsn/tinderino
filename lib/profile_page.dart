@@ -155,9 +155,10 @@ class EditProfileButton extends StatelessWidget {
 }
 
 class FilledProfileProgress extends StatefulWidget {
-  const FilledProfileProgress({Key? key}) : super(key: key);
+  const FilledProfileProgress({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _FilledProfileProgressState createState() => _FilledProfileProgressState();
 }
 
@@ -235,7 +236,7 @@ class BorderPainter extends CustomPainter {
 }
 
 class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {

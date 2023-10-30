@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
 class LoginButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback callback;
-  LoginButton(this.buttonText, this.callback, {super.key});
+  const LoginButton(this.buttonText, this.callback, {super.key});
 
   @override
   Widget build(BuildContext context) {

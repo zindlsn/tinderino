@@ -1,8 +1,12 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:tinder_clone/login_page.dart';
+import 'package:tinder_clone/matches_page.dart';
 import 'package:tinder_clone/matching_page.dart';
 import 'package:tinder_clone/profile_page.dart';
+import 'package:tinder_clone/models/user.dart';
+
+User me = User();
 
 void main() {
   runApp(
@@ -84,12 +88,20 @@ class _MyHomePageState extends State<MyHomePage> {
               Icons.travel_explore,
               color: Colors.grey,
             ),
+            activeIcon: Icon(
+              Icons.local_fire_department,
+              color: Colors.red,
+            ),
           ),
           BottomNavigationBarItem(
             label: '2',
             icon: Icon(
               Icons.diamond,
               color: Colors.grey,
+            ),
+            activeIcon: Icon(
+              Icons.local_fire_department,
+              color: Colors.red,
             ),
           ),
           BottomNavigationBarItem(
@@ -98,12 +110,20 @@ class _MyHomePageState extends State<MyHomePage> {
               Icons.forum,
               color: Colors.grey,
             ),
+            activeIcon: Icon(
+              Icons.local_fire_department,
+              color: Colors.red,
+            ),
           ),
           BottomNavigationBarItem(
             label: '2',
             icon: Icon(
               Icons.person_2,
               color: Colors.grey,
+            ),
+            activeIcon: Icon(
+              Icons.local_fire_department,
+              color: Colors.red,
             ),
           ),
         ],
@@ -121,6 +141,8 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (currentIndex) {
       case 0:
         return const MatchingPage();
+      case 3:
+        return const MatchesPage();
       case 4:
         return const ProfilePage();
       default:

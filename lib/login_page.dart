@@ -1,6 +1,6 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_list.dart';
-import 'package:flutter_signin_button/button_view.dart';
 import 'package:tinder_clone/main.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,13 +19,15 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Flexible(
+            const Flexible(
               flex: 1,
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.local_fire_department,
@@ -61,12 +63,12 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-                      LoginButton('LOG IN WITH GOOGLE'),
+                      LoginButton('LOG IN WITH GOOGLE', login),
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                        child: LoginButton('LOG IN WITH FACEBOOK'),
+                        child: LoginButton('LOG IN WITH FACEBOOK', login),
                       ),
-                      LoginButton('LOG IN WITH PHONE NUMBER'),
+                      LoginButton('LOG IN WITH PHONE NUMBER', login),
                       const Center(
                         child: Padding(
                           padding: EdgeInsets.only(top: 32.0),
@@ -75,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -86,24 +88,39 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  Future loginAsync() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MyHomePage(
+          title: '',
+        ),
+      ),
+    );
+  }
+
+  void login() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MyHomePage(
+          title: '',
+        ),
+      ),
+    );
+  }
 }
 
 class LoginButton extends StatelessWidget {
   final String buttonText;
-  LoginButton(this.buttonText, {super.key});
+  final VoidCallback callback;
+  LoginButton(this.buttonText, this.callback, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const MyHomePage(
-                    title: '',
-                  )),
-        );
-      },
+      onTap: callback,
       child: Container(
         height: 48,
         decoration: const BoxDecoration(
@@ -112,7 +129,9 @@ class LoginButton extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(
               left: 32.0, right: 32.0, top: 8.0, bottom: 8.0),
-          child: Center(child: Text(buttonText)),
+          child: Center(
+            child: Text(buttonText),
+          ),
         ),
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:tinder_clone/main.dart';
 import 'package:tinder_clone/models/message.dart';
 import 'package:tinder_clone/models/user.dart';
 
@@ -14,11 +13,19 @@ class MatchUser {
       if (lastMessage.owner == message.owner) {
         message.isFollowUpMessage = true;
       }
-      if (lastMessage.created.day < message.created.day) {
+
+      if ((lastMessage.created
+                  .toUtc()
+                  .difference(message.created.toUtc())
+                  .inDays)
+              .abs() >=
+          1) {
         message.isNewDate = true;
       } else {
         message.isNewDate = false;
       }
+    } else {
+      message.isNewDate = true;
     }
     messages.add(message);
   }

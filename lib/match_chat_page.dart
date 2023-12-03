@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:intl/intl.dart';
 import 'package:tinder_clone/main.dart';
 import 'package:tinder_clone/models/match_user.dart';
 import 'package:tinder_clone/models/message.dart';
@@ -44,7 +45,34 @@ class _MatchChatPageState extends State<MatchChatPage> {
     matchUser.addMessage(Message(matchUser.otherUser.id, 'from the hot girl')
       ..sender = MessageSender.other);
     matchUser.addMessage(
-        Message(me.id, 'from the hot girl')..sender = MessageSender.me);
+      Message(me.id, 'from the hot girl')
+        ..sender = MessageSender.me
+        ..created = DateTime.now().add(
+          const Duration(
+            days: 1,
+          ),
+        ),
+    );
+
+    matchUser.addMessage(
+      Message(me.id, 'from the hot girl!!!')
+        ..sender = MessageSender.me
+        ..created = DateTime.now().add(
+          const Duration(
+            days: 3,
+          ),
+        ),
+    );
+
+    matchUser.addMessage(
+      Message(me.id, 'from the hot gir???l!!!')
+        ..sender = MessageSender.me
+        ..created = DateTime.now().add(
+          const Duration(
+            days: 5,
+          ),
+        ),
+    );
 
     super.initState();
   }
@@ -90,7 +118,7 @@ class _MatchChatPageState extends State<MatchChatPage> {
                         itemBuilder: ((context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
-                            child: buildMessage(matchUser.messages[index]),
+                            child: createBubbble(matchUser.messages[index]),
                           );
                         }),
                       ),
@@ -225,6 +253,29 @@ class _MatchChatPageState extends State<MatchChatPage> {
     });
   }
 
+  Widget timeLine(Message message) {
+    final DateFormat formatter = DateFormat('dd.MM.yyyy HH:mm');
+    final String formatted = formatter.format(message.created);
+    if (message.isNewDate) {
+      return Text(formatted);
+    } else {
+      return Container();
+    }
+  }
+
+  Widget createBubbble(Message message) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Align(
+          alignment: Alignment.center,
+          child: timeLine(message),
+        ),
+        buildMessage(message)
+      ],
+    );
+  }
+
   Widget buildMessage(Message message) {
     if (message.owner == me.id) {
       if (message.isFollowUpMessage) {
@@ -251,6 +302,5 @@ class _MatchChatPageState extends State<MatchChatPage> {
         );
       }
     }
-    return Container();
   }
 }

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:tinder_clone/appbar_title.dart';
+import 'package:tinder_clone/edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -136,6 +137,14 @@ class EditProfileButton extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfilePage(),
+                      ),
+                    );
+                  },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Icon(

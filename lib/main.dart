@@ -7,7 +7,7 @@ import 'package:tinder_clone/profile_page.dart';
 import 'package:tinder_clone/models/user.dart';
 
 User me = User();
-final GlobalKey<ScaffoldState> globalKey = new GlobalKey<ScaffoldState>();
+final GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 void main() {
   runApp(
     DevicePreview(

@@ -21,7 +21,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              children: [mediaPart(), aboutMe(), getInteresets()],
+              children: [mediaPart(), AboutMeSection(), getInteresets()],
             ),
           ),
         ),
@@ -40,31 +40,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget aboutMe() {
-    String enteredText = 'Kletterer';
-    TextEditingController _aboutMeController = TextEditingController();
-    _aboutMeController.text = enteredText;
-    return Container(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          getHeader('About Me'),
-          TextFormField(
-            controller: _aboutMeController,
-            onChanged: (value) {
-              enteredText = value;
-            },
-            decoration: InputDecoration(
-              counter: Text('${enteredText.length.toString()} / 255'),
-              border: InputBorder.none,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget getHeader(String text) {
     return Text(
       text,
@@ -73,20 +48,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
+  String _interests = "b";
+
   Widget getInteresets() {
     return Column(
       children: [
         getHeader('Interests'),
         GestureDetector(
-          onTap: () {
-            Navigator.push(
+          onTap: () async {
+            List<String>? result = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const InterestsPage(),
               ),
             );
+            setState(() {
+              if (result != null) {
+                _interests = result.join(', ');
+              }
+            });
           },
-          child: const Text('Interests'),
+          child: Text(_interests),
         ),
       ],
     );
@@ -149,6 +131,73 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         )
       ],
+    );
+  }
+}
+
+class AboutMeSection extends StatefulWidget {
+  AboutMeSection({Key? key}) : super(key: key);
+
+  @override
+  _AboutMeSectionState createState() => _AboutMeSectionState();
+}
+
+class _AboutMeSectionState extends State<AboutMeSection> {
+  final TextEditingController _aboutMeController = TextEditingController();
+  final maxLength = 12;
+  late int rest = maxLength;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return aboutMe();
+  }
+
+  Widget getHeader(String text) {
+    return Text(
+      text,
+      textAlign: TextAlign.start,
+      style: const TextStyle(fontWeight: FontWeight.bold),
+    );
+  }
+
+  String enteredText = '';
+
+  Widget aboutMe() {
+    return Container(
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          getHeader('About Me'),
+          TextFormField(
+            controller: _aboutMeController,
+            onChanged: (value) => setState(() {
+              rest = maxLength - _aboutMeController.text.length;
+            }),
+            minLines: 1,
+            maxLines: 5,
+            maxLength: maxLength,
+            decoration: InputDecoration(
+              counter: Text(
+                '$rest',
+                overflow: TextOverflow.ellipsis,
+              ),
+              border: InputBorder.none,
+            ),
+          ),
+          Text(
+            'data',
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
+            textDirection: TextDirection.rtl,
+            textAlign: TextAlign.justify,
+          ),
+        ],
+      ),
     );
   }
 }

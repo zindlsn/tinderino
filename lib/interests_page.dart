@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tinder_clone/main.dart';
 
 class InterestsPage extends StatefulWidget {
   const InterestsPage({super.key});
@@ -34,10 +33,15 @@ class _InterestsPageState extends State<InterestsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: const [
-            Text(
-              'Done',
-              style: TextStyle(color: Colors.redAccent),
+          actions: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context, _selectedInterests);
+              },
+              child: const Text(
+                'Done',
+                style: TextStyle(color: Colors.redAccent),
+              ),
             ),
           ],
         ),

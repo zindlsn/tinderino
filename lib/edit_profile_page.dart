@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 import 'package:tinder_clone/interests_page.dart';
+import 'package:tinder_clone/main.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -21,7 +25,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              children: [mediaPart(), AboutMeSection(), getInteresets()],
+              children: [
+                mediaPart(),
+                AboutMeSection(),
+                getInteresets(),
+                HeigtSection()
+              ],
             ),
           ),
         ),
@@ -189,7 +198,7 @@ class _AboutMeSectionState extends State<AboutMeSection> {
               border: InputBorder.none,
             ),
           ),
-          Text(
+          const Text(
             'data',
             maxLines: 4,
             overflow: TextOverflow.ellipsis,
@@ -199,5 +208,65 @@ class _AboutMeSectionState extends State<AboutMeSection> {
         ],
       ),
     );
+  }
+}
+
+class HeigtSection extends StatefulWidget {
+  HeigtSection({Key? key}) : super(key: key);
+
+  @override
+  _HeigtSectionState createState() => _HeigtSectionState();
+}
+
+class _HeigtSectionState extends State<HeigtSection> {
+  final _pickerData2 = '''
+[
+    [
+        1,
+        2,
+        3,
+        4
+    ],
+    [
+        11,
+        22,
+        33,
+        44
+    ],
+    [
+        "aaa",
+        "bbb",
+        "ccc"
+    ]
+]
+    ''';
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        child: const Text('Height'),
+        onTap: () {
+          showModalBottomSheet<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return SizedBox(
+                height: 200,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const Text('Modal BottomSheet'),
+                      ElevatedButton(
+                        child: const Text('Close BottomSheet'),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        });
   }
 }

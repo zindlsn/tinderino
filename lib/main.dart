@@ -7,7 +7,7 @@ import 'package:tinder_clone/profile_page.dart';
 import 'package:tinder_clone/models/user.dart';
 
 User me = User();
-final GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
+GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 void main() {
   runApp(
     DevicePreview(
@@ -54,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: selectCurrentPage(_currentIndex),
       backgroundColor: Colors.grey[300],
+      key: globalKey,
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         elevation: 1.0,

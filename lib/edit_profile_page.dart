@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_picker/flutter_picker.dart';
+import 'package:tinder_clone/core/custom_formfield.dart';
 import 'package:tinder_clone/interests_page.dart';
 import 'package:tinder_clone/main.dart';
 
@@ -244,29 +246,126 @@ class _HeigtSectionState extends State<HeigtSection> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        child: const Text('Height'),
-        onTap: () {
-          showModalBottomSheet<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return SizedBox(
-                height: 200,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      const Text('Modal BottomSheet'),
-                      ElevatedButton(
-                        child: const Text('Close BottomSheet'),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
-                  ),
+      child: Row(
+        children: [
+          Icon(Icons.height),
+          const Text('Add height'),
+        ],
+      ),
+      onTap: () {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return SizedBox(
+              height: 400,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const Text('Height'),
+                    const Text('Here`s a change to add height to your profile'),
+                    const UnitTypeSection(),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Remove height'),
+                    ),
+                  ],
                 ),
-              );
-            },
-          );
-        });
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }
+
+class UnitTypeSection extends StatefulWidget {
+  const UnitTypeSection({super.key});
+
+  @override
+  State<UnitTypeSection> createState() => _UnitTypeSectionState();
+}
+
+class _UnitTypeSectionState extends State<UnitTypeSection> {
+  final List<bool> _toggleButtonsSelection =
+      UnitType.values.map((UnitType e) => e == UnitType.medium).toList();
+  Set<UnitType> _segmentedButtonSelection = <UnitType>{UnitType.medium};
+  TextEditingController feetEditingController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _segmentedButtonSelection.contains(UnitType.feet)
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        const Text('Feet'),
+                        CustomFormfield(
+                          hintText: 'ft',
+                          textEditingController: feetEditingController,
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        const Text('Inches'),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: TextFormField(),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              )
+            : Column(
+                children: [
+                  const Text('Centimeters'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: TextFormField(),
+                  ),
+                ],
+              ),
+        SegmentedButton<UnitType>(
+          // ToggleButtons above allows multiple or no selection.
+          // Set `multiSelectionEnabled` and `emptySelectionAllowed` to true
+          // to match the behavior of ToggleButtons.
+          multiSelectionEnabled: false,
+          emptySelectionAllowed: false,
+          // Hide the selected icon to match the behavior of ToggleButtons.
+          showSelectedIcon: false,
+          // SegmentedButton uses a Set<T> to track its selection state.
+          selected: _segmentedButtonSelection,
+          // This callback updates the set of selected segment values.
+          onSelectionChanged: (Set<UnitType> newSelection) {
+            setState(() {
+              _segmentedButtonSelection = newSelection;
+            });
+          },
+          segments: shirtSizeOptions
+              .map<ButtonSegment<UnitType>>(((UnitType, String) shirt) {
+            return ButtonSegment<UnitType>(
+                value: shirt.$1, label: Text(shirt.$2));
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+enum UnitType { feet, metric, medium, large, extraLarge }
+
+const List<(UnitType, String)> shirtSizeOptions = <(UnitType, String)>[
+  (UnitType.feet, 'ft/in'),
+  (UnitType.metric, 'cm'),
+];

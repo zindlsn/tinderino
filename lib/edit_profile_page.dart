@@ -1,11 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_picker/flutter_picker.dart';
 import 'package:tinder_clone/core/custom_formfield.dart';
 import 'package:tinder_clone/interests_page.dart';
-import 'package:tinder_clone/main.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -31,7 +26,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 mediaPart(),
                 AboutMeSection(),
                 getInteresets(),
-                HeigtSection()
+                HeigtSection(),
+                const BasicsSection()
               ],
             ),
           ),
@@ -59,7 +55,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  String _interests = "b";
+  String _interests = "Climbing";
 
   Widget getInteresets() {
     return Column(
@@ -246,10 +242,10 @@ class _HeigtSectionState extends State<HeigtSection> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Row(
+      child: const Row(
         children: [
           Icon(Icons.height),
-          const Text('Add height'),
+          Text('Add height'),
         ],
       ),
       onTap: () {
@@ -358,6 +354,108 @@ class _UnitTypeSectionState extends State<UnitTypeSection> {
                 value: shirt.$1, label: Text(shirt.$2));
           }).toList(),
         ),
+      ],
+    );
+  }
+}
+
+class BasicsSection extends StatefulWidget {
+  const BasicsSection({super.key});
+
+  @override
+  State<BasicsSection> createState() => _BasicsSectionState();
+}
+
+class _BasicsSectionState extends State<BasicsSection> {
+  String choice = 'Empty';
+
+  final List<String> _zodiacSigns = [
+    'Capricorn',
+    'Aquarius',
+    'Pisces',
+    'Leo',
+    'Virgo',
+    'Libra'
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GestureDetector(
+          child: BasicChoice(topic: 'Zodiac', choice: choice),
+          onTap: () {
+            showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return SizedBox(
+                  height: 400,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        const Icon(Icons.cancel),
+                        const Icon(Icons.check_outlined),
+                        const Text('Basics'),
+                        const Text(
+                            'Bring your best self forward by adding more about you'),
+                        const Icon(Icons.adb_rounded),
+                        const Text('What is your zodiac sign?'),
+                        zodiacChips(),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget zodiacChips() {
+    return Wrap(
+      children: List<Widget>.generate(
+        _zodiacSigns.length,
+        (int index) {
+          return FilterChip(
+            color: MaterialStateProperty.all(Colors.white),
+            label: Text(
+              _zodiacSigns[index],
+            ),
+            onSelected: (value) => setState(
+              () {
+                _zodiacSigns
+                    .removeWhere((element) => element == _zodiacSigns[index]);
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class BasicChoice extends StatefulWidget {
+  String choice;
+  String topic;
+  BasicChoice({super.key, required this.topic, required this.choice});
+
+  @override
+  State<BasicChoice> createState() => _BasicChoiceState();
+}
+
+class _BasicChoiceState extends State<BasicChoice> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Icon(Icons.adb_rounded),
+        Text(widget.topic),
+        Text(widget.choice),
+        const Icon(Icons.keyboard_arrow_right_rounded)
       ],
     );
   }

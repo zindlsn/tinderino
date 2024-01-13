@@ -369,6 +369,10 @@ class BasicsSection extends StatefulWidget {
 class _BasicsSectionState extends State<BasicsSection> {
   String choice = 'Empty';
 
+  final List<String> _selectedInterests = [];
+  List<String> _filteredChips = [];
+  String? _selectedZodiac;
+
   final List<String> _zodiacSigns = [
     'Capricorn',
     'Aquarius',
@@ -377,6 +381,12 @@ class _BasicsSectionState extends State<BasicsSection> {
     'Virgo',
     'Libra'
   ];
+
+  @override
+  void initState() {
+    _filteredChips = _zodiacSigns;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -417,25 +427,35 @@ class _BasicsSectionState extends State<BasicsSection> {
 
   Widget zodiacChips() {
     return Wrap(
-      children: List<Widget>.generate(
-        _zodiacSigns.length,
-        (int index) {
-          return FilterChip(
-            color: MaterialStateProperty.all(Colors.white),
-            label: Text(
-              _zodiacSigns[index],
+      spacing: 6.0,
+      runSpacing: 6.0,
+      runAlignment: WrapAlignment.center,
+      children: List<Widget>.generate(_zodiacSigns.length, (int index) {
+        return FilterChip(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            side: BorderSide(
+              color: isSelected(_zodiacSigns[index])
+                  ? Colors.redAccent
+                  : Colors.grey,
+              width: 2.0,
             ),
-            onSelected: (value) => setState(
-              () {
-                _zodiacSigns
-                    .removeWhere((element) => element == _zodiacSigns[index]);
-              },
-            ),
-          );
-        },
-      ),
+          ),
+          label: Text(_zodiacSigns[index]),
+          selected: isSelected(_zodiacSigns[index]),
+          onSelected: (bool selected) => setState(
+            () {
+              !isSelected(_zodiacSigns[index])
+                  ? _selectedZodiac = _zodiacSigns[index]
+                  : _selectedZodiac = null;
+            },
+          ),
+        );
+      }),
     );
   }
+
+  bool isSelected(String dynamicChip) => _selectedZodiac == dynamicChip;
 }
 
 class BasicChoice extends StatefulWidget {
